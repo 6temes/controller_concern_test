@@ -1,4 +1,4 @@
-module CountryLocaleIdentifier
+module CurrentCountryLocale
   extend ActiveSupport::Concern
 
   included do
@@ -13,10 +13,10 @@ module CountryLocaleIdentifier
   end
 
   def set_country
-    session[:country] ||= (params[:country] || AUSTRALIA_COUNTRY_CODE.downcase)
+    Current.country ||= (params[:country] || AUSTRALIA_COUNTRY_CODE.downcase)
   end
 
   def set_locale
-    session[:locale] ||= params[:locale] || I18n.default_locale
+    Current.locale ||= params[:locale] || I18n.default_locale
   end
 end
