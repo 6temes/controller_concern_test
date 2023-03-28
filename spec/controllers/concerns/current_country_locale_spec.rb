@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe CurrentCountryLocale do
+RSpec.describe CurrentCountryLocale, type: :controller do
   controller(ApplicationController) do
     include CurrentCountryLocale
 
@@ -11,19 +11,16 @@ RSpec.describe CurrentCountryLocale do
     end
   end
 
+  CurrentMock = Struct.new(:country, :locale)
+  let(:current_mock) { CurrentMock.new }
+
   let(:australia_country_code) { 'au' }
   let(:default_locale) { 'en_AU' }
 
   before do
+    allow(Current).to receive(:instance).and_return(current_mock)
     stub_const('AUSTRALIA_COUNTRY_CODE', australia_country_code)
     allow(I18n).to receive(:default_locale).and_return(default_locale)
-  end
-
-  CurrentMock = Struct.new(:country, :locale)
-  let(:current_mock) { CurrentMock.new }
-
-  before do
-    allow(Current).to receive(:instance).and_return(current_mock)
   end
 
   around do |example|
